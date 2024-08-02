@@ -15,7 +15,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { SquareUserRound, UserRound, CircleUserRound } from "lucide-react"; // Import the square-user-round icon
+import { SquareUserRound, UserRound, CircleUserRound, Menu } from "lucide-react"; // Import the square-user-round icon
+import { UserButton } from "@clerk/nextjs";
 
 
 const spaceMono = Space_Mono({
@@ -36,11 +37,11 @@ export function Nav() {
           </h1>
         </Link>
       </div>
-      <div className="flex flex-none items-center space-x-4">
+      <div className="flex flex-none items-center space-x-0">
         <Drawer>
           <DrawerTrigger>
-            <Button variant="ghost">
-              <CircleUserRound className="text-sm" />
+            <Button variant="ghost" >
+              <Menu className="text-sm" />
             </Button>
           </DrawerTrigger>
           <DrawerContent>
@@ -99,6 +100,9 @@ export function Nav() {
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
+        <Button variant="ghost" >
+          <UserButton />
+        </Button>
       </div>
     </div>
   );
