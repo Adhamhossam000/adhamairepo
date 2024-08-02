@@ -5,6 +5,14 @@ import { Nav } from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import BackgroundComponent from "@/components/magicui/back";
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  RedirectToSignIn,
+} from "@clerk/nextjs";
+import {dark } from '@clerk/themes';
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,35 +31,46 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={inter.className}
-        style={{
-          display: "flex",
-          flex: 1,
-          flexDirection: "column",
-          height: "100vh",
-        }}
-      >
-        <Analytics />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+    <ClerkProvider 
+    appearance={{
+      baseTheme: dark,
+    }}
+    
+    >
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={inter.className}
+          style={{
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            height: "100vh",
+          }}
         >
-          <div className="relative flex-1 flex items-center justify-center">
-            <BackgroundComponent />
-            <div  className="relative z-20 w-full">
-              <Nav />
-              <div className="fade-in">
-
-              {children}
+          <Analytics />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="relative flex-1 flex items-center justify-center">
+              <BackgroundComponent />
+              <div className="relative z-20 w-full">
+                <Nav />
+                <div className="fade-in">
+                  <SignedIn>
+                    {children}
+                  </SignedIn>
+                  <SignedOut>
+                    <RedirectToSignIn />
+                  </SignedOut>
+                </div>
               </div>
             </div>
-          </div>
-        </ThemeProvider>
-      </body>
-    </html>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
